@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flask API (Python breakpoints)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/api/.venv/Scripts/python.exe",
+      "program": "${workspaceFolder}/api/app.py",
+      "cwd": "${workspaceFolder}/api",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "FLASK_DEBUG": "0",
+        "PORT": "5001"
+      }
+    },
+    {
+      "name": "Express gateway (Node breakpoints)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/gateway/server.js",
+      "cwd": "${workspaceFolder}/gateway",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "React app (Edge breakpoints)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://127.0.0.1:5173",
+      "webRoot": "${workspaceFolder}/web"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Flask + gateway",
+      "configurations": [
+        "Flask API (Python breakpoints)",
+        "Express gateway (Node breakpoints)"
+      ],
+      "stopAll": true
+    }
+  ]
+}

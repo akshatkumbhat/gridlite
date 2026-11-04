@@ -1,0 +1,33 @@
+name: GridLite cross-platform tests
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Create isolated Python environment
+        run: python -m venv api/.venv
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            api/.venv/Scripts/python.exe -m pip install -r api/requirements.txt
+          else
+            api/.venv/bin/python -m pip install -r api/requirements.txt
+          fi
+      - name: Install locked JavaScript dependencies
+        run: npm run install:all
+      - name: Backend, JavaScript and frontend build checks
+        run: npm run test:all

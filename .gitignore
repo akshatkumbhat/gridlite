@@ -1,0 +1,19 @@
+# dependencies and builds
+node_modules/
+web/dist/
+api/.venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# data: only the two small sample tables are committed
+data/*
+!data/sample_products.csv
+!data/sample_sales_orders.csv
+
+# local settings and OS files
+.env
+.DS_Store
+Thumbs.db
+*.log

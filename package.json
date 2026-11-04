@@ -1,0 +1,25 @@
+{
+  "name": "gridlite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A lightweight spreadsheet-style editor for CSV data: React + Node/Express + Flask/pandas",
+  "scripts": {
+    "install:all": "npm ci && npm ci --prefix gateway && npm ci --prefix web",
+    "dev": "concurrently -n api,gateway,web -c blue,magenta,green \"npm:dev:api\" \"npm:dev:gateway\" \"npm:dev:web\"",
+    "dev:api": "cd api && node ../scripts/py.js app.py",
+    "dev:gateway": "npm run dev --prefix gateway",
+    "dev:web": "npm run dev --prefix web",
+    "build": "npm run build --prefix web",
+    "start": "concurrently -n api,gateway -c blue,magenta \"npm:dev:api\" \"npm start --prefix gateway\"",
+    "test": "cd api && node ../scripts/py.js -m pytest -q",
+    "sample-data": "node scripts/py.js scripts/make_sample_data.py",
+    "test:frontend": "node --test web/tests/*.test.mjs",
+    "test:all": "npm test && npm run test:frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.5"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}

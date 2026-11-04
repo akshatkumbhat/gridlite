@@ -1,0 +1,16 @@
+product_id,product_name,category,unit_price,stock_qty,active
+P-001,Steel Bolt M8,Hardware,0.45,1309,Yes
+P-002,Steel Bolt M10,Hardware,0.60,51,No
+P-003,Hex Nut M8,Hardware,0.12,563,Yes
+P-004,Copper Wire 2.5mm (100m),Electrical,38.00,457,Yes
+P-005,Circuit Breaker 16A,Electrical,9.50,1508,Yes
+P-006,LED Panel 40W,Electrical,24.00,1385,No
+P-007,PVC Pipe 1in (3m),Plumbing,4.20,1827,No
+P-008,Ball Valve 1in,Plumbing,7.80,178,No
+P-009,Safety Helmet,Safety,12.50,864,Yes
+P-010,Safety Gloves (pair),Safety,3.40,61,Yes
+P-011,Hi-Vis Vest,Safety,5.90,447,Yes
+P-012,Cordless Drill 18V,Tools,89.00,1034,No
+P-013,Angle Grinder 115mm,Tools,54.00,54,No
+P-014,Measuring Tape 5m,Tools,6.75,407,No
+P-015,Cement Bag 50kg,Building,7.10,1330,No
