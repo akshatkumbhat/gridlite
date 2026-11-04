@@ -18,7 +18,7 @@ CSV = "id,name,score,code\n1,Alice,90,007\n2,bob,75,010\n3,Carol,,002\n4,dave,10
 
 @pytest.fixture
 def ctx(tmp_path):
-    (tmp_path / "people.csv").write_text(CSV, encoding="utf-8")
+    (tmp_path / "people.csv").write_text(CSV, encoding="utf-8", newline="")
     app = create_app(str(tmp_path))
     return app.test_client(), tmp_path
 
@@ -117,7 +117,7 @@ def test_failed_save_reports_error_and_keeps_disk_value(ctx, monkeypatch):
 
 def test_backups_are_kept_per_table(ctx):
     client, tmp = ctx
-    (tmp / "people.old.csv").write_text(CSV, encoding="utf-8")
+    (tmp / "people.old.csv").write_text(CSV, encoding="utf-8", newline="")
     for v in ["80", "81", "82"]:
         versioned(client, "patch", "/api/tables/people.old.csv/rows/0", json={"column": "score", "value": v})
     for v in ["91", "92", "93", "94", "95", "96"]:
@@ -129,7 +129,7 @@ def test_backups_are_kept_per_table(ctx):
 
 def test_repeated_column_names_are_refused(ctx):
     client, tmp = ctx
-    (tmp / "dup.csv").write_text("x,x\n1,2\n", encoding="utf-8")
+    (tmp / "dup.csv").write_text("x,x\n1,2\n", encoding="utf-8", newline="")
     res = client.get("/api/tables/dup.csv/rows")
     assert res.status_code == 400
     assert "Repeated column names" in res.get_json()["error"]
@@ -216,7 +216,7 @@ def test_writes_require_a_current_version(ctx):
 def test_external_insert_cannot_silently_edit_wrong_row(ctx):
     client, tmp = ctx
     current_version = rows(client)["version"]
-    (tmp / "people.csv").write_text("id,name,score,code\n0,Outside,1,000\n" + CSV.split("\n", 1)[1])
+    (tmp / "people.csv").write_text("id,name,score,code\n0,Outside,1,000\n" + CSV.split("\n", 1)[1], encoding="utf-8", newline="")
     response = client.patch("/api/tables/people.csv/rows/1", headers={"If-Match": current_version},
                             json={"column": "name", "value": "Wrong row"})
     assert response.status_code == 409
@@ -318,7 +318,7 @@ def test_failed_non_os_encoding_error_invalidates_cache(tmp_path):
 
 def test_symlink_csv_is_not_exposed(tmp_path):
     target = tmp_path / 'outside.txt'
-    target.write_text('id\nsecret\n')
+    target.write_text('id\nsecret\n', encoding="utf-8", newline="")
     link = tmp_path / 'link.csv'
     try:
         link.symlink_to(target)
